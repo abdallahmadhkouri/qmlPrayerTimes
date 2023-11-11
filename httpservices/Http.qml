@@ -6,6 +6,17 @@ import httpservices
 QtObject {
     id: services
 
+    function checkInternet() {
+        return services.fetch({
+                "method": "GET",
+                "url": 'http://ip-api.com/json/',
+                "headers": {
+                    "Accept": 'application/json',
+                    "Content-Type": 'application/json'
+                },
+                "params": null
+            });
+    }
     function fetch(opts) {
         return new Promise(function (resolve, reject) {
             var xhr = new XMLHttpRequest();
@@ -47,20 +58,6 @@ QtObject {
             xhr.send(data);
         });
     }
-
-    function request(data) {
-        let query = {
-            "method": data['method'] ?? 'GET',
-            "url": data['url'] ?? '',
-            "headers": {
-                "Accept": 'application/json',
-                "Content-Type": 'application/json'
-            },
-            "params": data['params'] ?? null
-        };
-        return fetch(query);
-    }
-
     function get(url) {
         let query = {
             "method": 'GET',
@@ -73,16 +70,16 @@ QtObject {
         };
         return fetch(query);
     }
-
-    function checkInternet() {
-        return services.fetch({
-                "method": "GET",
-                "url": 'http://ip-api.com/json/',
-                "headers": {
-                    "Accept": 'application/json',
-                    "Content-Type": 'application/json'
-                },
-                "params": null
-            });
+    function request(data) {
+        let query = {
+            "method": data['method'] ?? 'GET',
+            "url": data['url'] ?? '',
+            "headers": {
+                "Accept": 'application/json',
+                "Content-Type": 'application/json'
+            },
+            "params": data['params'] ?? null
+        };
+        return fetch(query);
     }
 }

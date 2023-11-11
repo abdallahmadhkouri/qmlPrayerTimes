@@ -4,13 +4,14 @@ import QtQuick.Window
 import qmlPrayerTimes
 
 Window {
-    width: 640
     height: 480
-    visible: true
     title: qsTr("Hello World")
+    visible: true
+    width: 640
 
     PrayerTimes {
         id: prayTimeWidget
+
         anchors.centerIn: parent
         //        city: "montigny le bretonneux"
         latitude: "48.7739"
