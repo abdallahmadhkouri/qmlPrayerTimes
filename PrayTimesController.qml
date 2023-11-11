@@ -13,97 +13,117 @@ Item {
     property string aladhanBase: "http://api.aladhan.com/v1/timingsByCity"
     property string aladhanBaseGps: "http://api.aladhan.com/v1/calendar?latitude=%1&longitude=%2&method=4"
 
-    signal startTimer()
+    signal startTimer
 
     property string hijriDate
-    property variant prayTimes: [
-        {"name" : "Fajr", "times": ""},
-        {"name" : "Sunrise", "times": ""},
-        {"name" : "Dhuhr", "times": ""},
-        {"name" : "Asr", "times": ""},
-        {"name" : "Maghrib", "times": ""},
-        {"name" : "Isha", "times": ""}
-    ]
+    property variant prayTimes: [{
+            "name": "Fajr",
+            "times": ""
+        }, {
+            "name": "Sunrise",
+            "times": ""
+        }, {
+            "name": "Dhuhr",
+            "times": ""
+        }, {
+            "name": "Asr",
+            "times": ""
+        }, {
+            "name": "Maghrib",
+            "times": ""
+        }, {
+            "name": "Isha",
+            "times": ""
+        }]
 
     function remaindTime(currentTime, day = 0) {
         for (let i = 0; i < prayTimes.length; i++) {
-            let d = prayTimes[i]["times"].split(":")
-            let date = new Date()
-            date = new Date(date.setHours(parseInt(d[0])))
-            date = new Date(date.setMinutes(parseInt(d[1])))
-            date = new Date(date.setSeconds(0))
-            if(day !== 0) {
-                date = new Date(date.setDate(date.getDate() + 1))
+            let d = prayTimes[i]["times"].split(":");
+            let date = new Date();
+            date = new Date(date.setHours(parseInt(d[0])));
+            date = new Date(date.setMinutes(parseInt(d[1])));
+            date = new Date(date.setSeconds(0));
+            if (day !== 0) {
+                date = new Date(date.setDate(date.getDate() + 1));
             }
-            let time = date.getTime()
-            if(currentTime < time) {
-                nextPrayerTime = i
+            let time = date.getTime();
+            if (currentTime < time) {
+                nextPrayerTime = i;
                 let timeleft = time - currentTime;
                 let hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 let minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
                 let secondes = Math.floor((timeleft % (1000 * 60)) / 1000);
-                return [hours, minutes, secondes]
+                return [hours, minutes, secondes];
             }
         }
-        return [0, 0, 0]
+        return [0, 0, 0];
     }
 
     function calculateNextPrayerTime() {
-
-        let currentDate = new Date()
-        let currentTime = currentDate.getTime()
-        let r = remaindTime(currentTime)
-        rhours = r[0]
-        rminutes = r[1]
-        if(rhours == 0 && rminutes == 0) {
-            r = remaindTime(currentTime, 1)
+        let currentDate = new Date();
+        let currentTime = currentDate.getTime();
+        let r = remaindTime(currentTime);
+        rhours = r[0];
+        rminutes = r[1];
+        if (rhours == 0 && rminutes == 0) {
+            r = remaindTime(currentTime, 1);
         }
-        rhours = r[0]
-        rminutes = r[1]
-        rsecondes = r[2]
+        rhours = r[0];
+        rminutes = r[1];
+        rsecondes = r[2];
     }
 
     function setPrayerTimes(response) {
-        control.prayTimes = [
-            {"name" : "Fajr", "times": response["timings"]["Fajr"].split("(")[0]},
-            {"name" : "Sunrise", "times": response["timings"]["Sunrise"].split("(")[0]},
-            {"name" : "Dhuhr", "times": response["timings"]["Dhuhr"].split("(")[0]},
-            {"name" : "Asr", "times": response["timings"]["Asr"].split("(")[0]},
-            {"name" : "Maghrib", "times": response["timings"]["Maghrib"].split("(")[0]},
-            {"name" : "Isha", "times": response["timings"]["Isha"].split("(")[0]}
-        ]
+        control.prayTimes = [{
+                "name": "Fajr",
+                "times": response["timings"]["Fajr"].split("(")[0]
+            }, {
+                "name": "Sunrise",
+                "times": response["timings"]["Sunrise"].split("(")[0]
+            }, {
+                "name": "Dhuhr",
+                "times": response["timings"]["Dhuhr"].split("(")[0]
+            }, {
+                "name": "Asr",
+                "times": response["timings"]["Asr"].split("(")[0]
+            }, {
+                "name": "Maghrib",
+                "times": response["timings"]["Maghrib"].split("(")[0]
+            }, {
+                "name": "Isha",
+                "times": response["timings"]["Isha"].split("(")[0]
+            }];
     }
-
 
     function requestAladhanAPI(latitude, longitude) {
         let query = {
             url: control.aladhanBaseGps.arg(latitude).arg(longitude),
             method: "GET"
-        }
-        Http.request(query).then(function(response){
-            let days = new Date().getDate() -1
-            let dayInfo = response['data'][days]
-            setPrayerTimes(dayInfo)
-            var day = dayInfo["date"]["hijri"]["day"]
-            var weekday = dayInfo["date"]["hijri"]["weekday"]["ar"]
-            var month = dayInfo["date"]["hijri"]["month"]["ar"]
-            var monthNumber = dayInfo["date"]["hijri"]["month"]["number"]
-            var year = dayInfo["date"]["hijri"]["year"]
-            hijriDate = weekday + " " + day + " " + month + " " + year
-            control.startTimer()
-        })
+        };
+        Http.request(query).then(function (response) {
+                let days = new Date().getDate() - 1;
+                let dayInfo = response['data'][days];
+                setPrayerTimes(dayInfo);
+                var day = dayInfo["date"]["hijri"]["day"];
+                var weekday = dayInfo["date"]["hijri"]["weekday"]["ar"];
+                var month = dayInfo["date"]["hijri"]["month"]["ar"];
+                var monthNumber = dayInfo["date"]["hijri"]["month"]["number"];
+                var year = dayInfo["date"]["hijri"]["year"];
+                hijriDate = weekday + " " + day + " " + month + " " + year;
+                control.startTimer();
+            });
     }
 
     function requestPrayertimesAPI(latitude, longitude) {
         let query = {
             url: control.aladhanBaseGps.arg(latitude).arg(longitude),
             method: "GET"
-        }
-        Http.request(query).then(function(response){
-            let day = new Date().getDate()
-            let dayInfo = response['data'][day]
-            setPrayerTimes(dayInfo)
-            control.startTimer()
-        })
+        };
+        Http.request(query).then(function (response) {
+                let day = new Date().getDate();
+                let dayInfo = response['data'][day];
+                setPrayerTimes(dayInfo);
+                control.startTimer();
+            });
     }
 }

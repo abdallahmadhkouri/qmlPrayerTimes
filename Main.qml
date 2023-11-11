@@ -10,8 +10,8 @@ Window {
     title: qsTr("Hello World")
 
     PrayerTimes {
-        anchors.centerIn: parent
         id: prayTimeWidget
+        anchors.centerIn: parent
         //        city: "montigny le bretonneux"
         latitude: "48.7739"
         longitude: "2.0360"

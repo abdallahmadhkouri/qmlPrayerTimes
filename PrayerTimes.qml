@@ -19,20 +19,16 @@ Item {
 
     signal cityLatLngChanged
 
-
-    function initialFetch()
-    {
-        if(latitude != "" && longitude !="")
-        {
-            PrayTimesController.requestAladhanAPI(latitude, longitude)
-        }
-        else{
-            prayTimesTxt0.text = "-"
-            prayTimesTxt1.text = "-"
-            prayTimesTxt2.text = "-"
-            prayTimesTxt3.text = "-"
-            prayTimesTxt4.text = "-"
-            prayTimesTxt5.text = "-"
+    function initialFetch() {
+        if (latitude != "" && longitude != "") {
+            PrayTimesController.requestAladhanAPI(latitude, longitude);
+        } else {
+            prayTimesTxt0.text = "-";
+            prayTimesTxt1.text = "-";
+            prayTimesTxt2.text = "-";
+            prayTimesTxt3.text = "-";
+            prayTimesTxt4.text = "-";
+            prayTimesTxt5.text = "-";
         }
     }
 
@@ -42,13 +38,13 @@ Item {
     Connections {
         target: PrayTimesController
         function onStartTimer() {
-            timeUpdater.start()
-            prayTimesTxt0.text = PrayTimesController.prayTimes[0].times
-            prayTimesTxt1.text = PrayTimesController.prayTimes[1].times
-            prayTimesTxt2.text = PrayTimesController.prayTimes[2].times
-            prayTimesTxt3.text = PrayTimesController.prayTimes[3].times
-            prayTimesTxt4.text = PrayTimesController.prayTimes[4].times
-            prayTimesTxt5.text = PrayTimesController.prayTimes[5].times
+            timeUpdater.start();
+            prayTimesTxt0.text = PrayTimesController.prayTimes[0].times;
+            prayTimesTxt1.text = PrayTimesController.prayTimes[1].times;
+            prayTimesTxt2.text = PrayTimesController.prayTimes[2].times;
+            prayTimesTxt3.text = PrayTimesController.prayTimes[3].times;
+            prayTimesTxt4.text = PrayTimesController.prayTimes[4].times;
+            prayTimesTxt5.text = PrayTimesController.prayTimes[5].times;
         }
     }
 
@@ -236,7 +232,6 @@ Item {
                 Layout.preferredWidth: 60
             }
         }
-
     }
 
     //    Row {
