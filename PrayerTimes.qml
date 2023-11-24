@@ -13,7 +13,6 @@ Item {
     property string longitude
     property bool nextEventRamdan: false
     property int rowSpacing: width / 4
-    property var times: []
 
     signal cityLatLngChanged
 
@@ -75,14 +74,14 @@ Item {
 
             anchors.horizontalCenter: parent.horizontalCenter
             color: "white"
-            font.pixelSize: fontSize
+            font.pixelSize: prayerTimes.fontSize
             style: Text.Outline
             styleColor: "black"
             //            width: parent.width
             text: PrayTimesController.hijriDate
         }
         RowLayout {
-            spacing: rowSpacing
+            spacing: prayerTimes.rowSpacing
             width: parent.width//160
 
             Text {
@@ -109,7 +108,7 @@ Item {
             }
         }
         RowLayout {
-            spacing: rowSpacing
+            spacing: prayerTimes.rowSpacing
             width: parent.width//160
 
             Text {
@@ -136,7 +135,7 @@ Item {
             }
         }
         RowLayout {
-            spacing: rowSpacing
+            spacing: prayerTimes.rowSpacing
             width: parent.width//160
 
             Text {
@@ -163,7 +162,7 @@ Item {
             }
         }
         RowLayout {
-            spacing: rowSpacing
+            spacing: prayerTimes.rowSpacing
             width: parent.width//160
 
             Text {
@@ -190,7 +189,7 @@ Item {
             }
         }
         RowLayout {
-            spacing: rowSpacing
+            spacing: prayerTimes.rowSpacing
             width: parent.width//160
 
             Text {
@@ -217,7 +216,7 @@ Item {
             }
         }
         RowLayout {
-            spacing: rowSpacing
+            spacing: prayerTimes.rowSpacing
             width: parent.width//160
 
             Text {
@@ -251,7 +250,7 @@ Item {
     //        anchors.top: prayersTimesColumn.bottom
     //        anchors.topMargin: 7
     //        anchors.right: prayersTimesColumn.right
-    //        spacing: rowSpacing
+    //        spacing: prayerTimes.rowSpacing
     //        Text {
     //            id: remainingDays
     //            font.pixelSize: 15

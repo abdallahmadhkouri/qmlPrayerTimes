@@ -48,7 +48,7 @@ Item {
         rminutes = r[1];
         rsecondes = r[2];
     }
-    function remaindTime(currentTime, day = 0) {
+    function remaindTime(currentTime: date, day = 0) {
         for (let i = 0; i < prayTimes.length; i++) {
             let d = prayTimes[i]["times"].split(":");
             let date = new Date();
@@ -70,7 +70,7 @@ Item {
         }
         return [0, 0, 0];
     }
-    function requestAladhanAPI(latitude, longitude) {
+    function requestAladhanAPI(latitude: string, longitude: string): void {
         let query = {
             url: control.aladhanBaseGps.arg(latitude).arg(longitude),
             method: "GET"
@@ -88,7 +88,7 @@ Item {
                 control.startTimer();
             });
     }
-    function requestPrayertimesAPI(latitude, longitude) {
+    function requestPrayertimesAPI(latitude: string, longitude: string): void {
         let query = {
             url: control.aladhanBaseGps.arg(latitude).arg(longitude),
             method: "GET"
@@ -100,7 +100,7 @@ Item {
                 control.startTimer();
             });
     }
-    function setPrayerTimes(response) {
+    function setPrayerTimes(response): void {
         control.prayTimes = [{
                 "name": "Fajr",
                 "times": response["timings"]["Fajr"].split("(")[0]
