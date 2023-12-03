@@ -1,6 +1,6 @@
 pragma Singleton
 import QtQuick
-import httpservices
+import qmlPrayerTimes
 
 Item {
     id: control

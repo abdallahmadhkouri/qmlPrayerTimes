@@ -1,13 +1,12 @@
 pragma Singleton
 import QtQml
 import QtQuick
-import httpservices
 
 QtObject {
-    id: services
+    id: httpservices
 
     function checkInternet() {
-        return services.fetch({
+        return httpservices.fetch({
                 "method": "GET",
                 "url": 'http://ip-api.com/json/',
                 "headers": {
