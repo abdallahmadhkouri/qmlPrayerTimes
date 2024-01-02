@@ -57,7 +57,8 @@ Item {
             font.pixelSize: 12
             style: Text.Outline
             styleColor: "black"
-            text: PrayTimesController.prayTimes[PrayTimesController.nextPrayerTime].name + " in:" //  "next prayer"
+            // text: PrayTimesController.prayTimes[PrayTimesController.nextPrayerTime].name + " in:" //  "next prayer"
+            text: PrayTimesController.prayTimes && PrayTimesController.prayTimes[PrayTimesController.nextPrayerTime] ? PrayTimesController.prayTimes[PrayTimesController.nextPrayerTime].name + " in:" : ""
         }
         Text {
             id: nextPrayerTxt
@@ -86,9 +87,9 @@ Item {
 
             Text {
                 Layout.fillWidth: true
-                color: "white"
+                color: 0 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['name']
@@ -98,9 +99,9 @@ Item {
                 id: prayTimesTxt0
 
                 Layout.preferredWidth: 60
-                color: "white"
+                color: 0 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['times']
@@ -113,9 +114,9 @@ Item {
 
             Text {
                 Layout.fillWidth: true
-                color: "white"
+                color: 1 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['name']
@@ -125,9 +126,9 @@ Item {
                 id: prayTimesTxt1
 
                 Layout.preferredWidth: 60
-                color: "white"
+                color: 1 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['times']
@@ -140,9 +141,9 @@ Item {
 
             Text {
                 Layout.fillWidth: true
-                color: "white"
+                color: 2 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['name']
@@ -152,9 +153,9 @@ Item {
                 id: prayTimesTxt2
 
                 Layout.preferredWidth: 60
-                color: "white"
+                color: 2 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['times']
@@ -167,9 +168,9 @@ Item {
 
             Text {
                 Layout.fillWidth: true
-                color: "white"
+                color: 3 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['name']
@@ -179,9 +180,9 @@ Item {
                 id: prayTimesTxt3
 
                 Layout.preferredWidth: 60
-                color: "white"
+                color: 3 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['times']
@@ -194,9 +195,9 @@ Item {
 
             Text {
                 Layout.fillWidth: true
-                color: "white"
+                color: 4 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['name']
@@ -206,9 +207,9 @@ Item {
                 id: prayTimesTxt4
 
                 Layout.preferredWidth: 60
-                color: "white"
+                color: 4 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['times']
@@ -221,9 +222,9 @@ Item {
 
             Text {
                 Layout.fillWidth: true
-                color: "white"
+                color: 5 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['name']
@@ -233,9 +234,9 @@ Item {
                 id: prayTimesTxt5
 
                 Layout.preferredWidth: 60
-                color: "white"
+                color: 5 === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
+                // color: "white"
                 font.pixelSize: 15
-                //                    color: index === PrayTimesController.nextPrayerTime ? "lightgreen" : "white"
                 style: Text.Outline
                 styleColor: "black"
                 //                    text: modelData['times']
