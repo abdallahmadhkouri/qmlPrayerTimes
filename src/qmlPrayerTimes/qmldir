@@ -1,0 +1,4 @@
+Module qmlPrayerTimes
+singleton PrayTimesController 1.0 PrayTimesController.qml
+singleton Http 1.0 Http.qml
+PrayerTimes 1.0 PrayerTimes.qml

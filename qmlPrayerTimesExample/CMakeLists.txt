@@ -21,7 +21,7 @@ qt_add_qml_module(appqmlPrayerTimesExample
 #    PRIVATE Qt6::Quick
 #)
 
-add_subdirectory(../ ../build-qmlPrayerTimes)
+add_subdirectory(../src ../build-qmlPrayerTimes)
 
 target_link_libraries(appqmlPrayerTimesExample PRIVATE
     prayerTimesModuleplugin
