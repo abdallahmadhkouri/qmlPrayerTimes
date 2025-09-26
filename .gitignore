@@ -70,3 +70,7 @@ Thumbs.db
 *.exe
 
 CMakeLists.txt.user
+
+# QML Language Server files
+*.qmlls.ini
+.qmlls.ini
