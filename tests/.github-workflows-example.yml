@@ -1,0 +1,52 @@
+name: Qt Quick Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        qt-version: ['6.6', '6.7', '6.8']
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: ${{ matrix.qt-version }}
+        modules: 'qtquick qtquicktest'
+        cache: true
+
+    - name: Configure CMake
+      run: |
+        cd qmlPrayerTimes
+        cmake -B build -S . \
+          -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      run: |
+        cd qmlPrayerTimes
+        cmake --build build --parallel
+
+    - name: Run Tests
+      run: |
+        cd qmlPrayerTimes/build
+        ctest --output-on-failure --verbose
+      env:
+        QT_QPA_PLATFORM: offscreen
+
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results-${{ matrix.os }}-qt${{ matrix.qt-version }}
+        path: qmlPrayerTimes/build/Testing/
