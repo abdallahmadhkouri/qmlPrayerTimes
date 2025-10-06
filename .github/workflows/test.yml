@@ -67,9 +67,18 @@ jobs:
     - name: Run Tests
       run: |
         cd build
-        ctest --output-on-failure --verbose
+        ctest --output-on-failure --verbose --output-junit test-results.xml
       env:
         QT_QPA_PLATFORM: offscreen
+
+    - name: Publish Test Report
+      uses: mikepenz/action-junit-report@v4
+      if: always()
+      with:
+        report_paths: 'build/test-results.xml'
+        check_name: 'Test Results'
+        detailed_summary: true
+        include_passed: true
 
     - name: Upload Test Results
       if: always()
