@@ -1,0 +1,47 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '6.8.0'
+        cache: true
+
+    - name: Configure CMake
+      run: |
+        cmake -B build -S . \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_PREFIX_PATH=$Qt6_DIR
+
+    - name: Build Module
+      run: cmake --build build --target prayerTimesModuleplugin --parallel
+
+    - name: Build Tests
+      run: cmake --build build --target tst_qmlPrayerTimes --parallel
+
+    - name: Run Tests
+      run: |
+        cd build
+        ctest --output-on-failure --verbose
+      env:
+        QT_QPA_PLATFORM: offscreen
+
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: build/Testing/
