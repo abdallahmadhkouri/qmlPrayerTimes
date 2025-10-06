@@ -63,6 +63,12 @@ jobs:
         name: build-artifacts
         path: .
 
+    - name: List downloaded files
+      run: |
+        ls -la
+        ls -la build/ || true
+        find . -name "tst_qmlPrayerTimes" -type f
+
     - name: Make test executable
       run: chmod +x build/tst_qmlPrayerTimes
 
