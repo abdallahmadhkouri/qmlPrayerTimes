@@ -63,8 +63,42 @@ jobs:
         name: build-artifacts
         path: build
 
+    - name: Verify downloaded artifacts
+      run: |
+        echo "=== Listing downloaded artifacts ==="
+        ls -la build/
+        echo ""
+        echo "=== Checking test executable ==="
+        if [ -f build/tst_qmlPrayerTimes ]; then
+          echo "✓ Test executable found"
+          file build/tst_qmlPrayerTimes
+        else
+          echo "✗ Test executable NOT found"
+          echo "Searching for test executable:"
+          find build -name "tst_qmlPrayerTimes" -o -name "tst_*" | head -20
+          exit 1
+        fi
+        echo ""
+        echo "=== Checking QML module ==="
+        if [ -d build/src/qmlPrayerTimes ]; then
+          echo "✓ QML module directory found"
+          ls -la build/src/qmlPrayerTimes/
+        else
+          echo "✗ QML module directory NOT found"
+          find build -name "*.so" -o -name "qmldir" | head -20
+        fi
+
     - name: Make test executable
       run: chmod +x build/tst_qmlPrayerTimes
+
+    - name: Verify CTest configuration
+      run: |
+        cd build
+        echo "=== CTest Configuration ==="
+        ctest --show-only=json-v1 || ctest -N
+        echo ""
+        echo "=== Environment Check ==="
+        echo "QML_IMPORT_PATH would be: $PWD/src/qmlPrayerTimes"
 
     - name: Run Tests
       run: |
