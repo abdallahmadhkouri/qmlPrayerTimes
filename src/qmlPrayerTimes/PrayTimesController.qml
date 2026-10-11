@@ -5,8 +5,8 @@ import qmlPrayerTimes
 Item {
     id: control
 
-    property string aladhanBase: "http://api.aladhan.com/v1/timingsByCity"
-    property string aladhanBaseGps: "http://api.aladhan.com/v1/calendar?latitude=%1&longitude=%2&method=4"
+    property string aladhanBase: "https://api.aladhan.com/v1/timingsByCity"
+    property string aladhanBaseGps: "https://api.aladhan.com/v1/calendar?latitude=%1&longitude=%2&method=4"
     property string hijriDate
     property int nextPrayerTime: -1
     property variant prayTimes: [{
@@ -94,7 +94,7 @@ Item {
             method: "GET"
         };
         Http.request(query).then(function (response) {
-                let day = new Date().getDate();
+                let day = new Date().getDate() - 1; // the calendar array is 0-based
                 let dayInfo = response['data'][day];
                 setPrayerTimes(dayInfo);
                 control.startTimer();
