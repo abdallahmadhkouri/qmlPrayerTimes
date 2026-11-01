@@ -6,7 +6,9 @@ Item {
     id: control
 
     property string aladhanBase: "https://api.aladhan.com/v1/timingsByCity"
-    property string aladhanBaseGps: "https://api.aladhan.com/v1/calendar?latitude=%1&longitude=%2&method=4"
+    // One day, by date, at the coordinates: no month array to index into, and no
+    // redirect to follow (the bare /v1/calendar path answers 302 into /YYYY/MM).
+    property string aladhanBaseGps: "https://api.aladhan.com/v1/timings/%1?latitude=%2&longitude=%3&method=4"
     property string hijriDate
     property int nextPrayerTime: -1
     property variant prayTimes: [{
@@ -70,32 +72,42 @@ Item {
         }
         return [0, 0, 0];
     }
+    function aladhanDateString() {
+        let now = new Date();
+        let day = ("0" + now.getDate()).slice(-2);
+        let month = ("0" + (now.getMonth() + 1)).slice(-2);
+        return day + "-" + month + "-" + now.getFullYear();
+    }
     function requestAladhanAPI(latitude: string, longitude: string): void {
+        if (!latitude || !longitude)
+            return;
         let query = {
-            url: control.aladhanBaseGps.arg(latitude).arg(longitude),
+            url: control.aladhanBaseGps.arg(aladhanDateString()).arg(latitude).arg(longitude),
             method: "GET"
         };
         Http.request(query).then(function (response) {
-                let days = new Date().getDate() - 1;
-                let dayInfo = response['data'][days];
+                let dayInfo = response['data']; // { timings, date, meta } for that one day
+                if (!dayInfo || !dayInfo['timings']) {
+                    console.log("prayer times: unexpected response shape");
+                    return;
+                }
                 setPrayerTimes(dayInfo);
-                var day = dayInfo["date"]["hijri"]["day"];
-                var weekday = dayInfo["date"]["hijri"]["weekday"]["ar"];
-                var month = dayInfo["date"]["hijri"]["month"]["ar"];
-                var monthNumber = dayInfo["date"]["hijri"]["month"]["number"];
-                var year = dayInfo["date"]["hijri"]["year"];
-                hijriDate = weekday + " " + day + " " + month + " " + year;
+                let hijri = dayInfo["date"]["hijri"];
+                hijriDate = hijri["weekday"]["ar"] + " " + hijri["day"] + " " + hijri["month"]["ar"] + " " + hijri["year"];
                 control.startTimer();
+            }).catch(function (error) {
+                // A failed request must not leave an unhandled rejection behind; the
+                // widget keeps the last times it managed to fetch.
+                console.log("prayer times: request failed - " + (error && error.statusText ? error.statusText : error));
             });
     }
     function requestPrayertimesAPI(latitude: string, longitude: string): void {
         let query = {
-            url: control.aladhanBaseGps.arg(latitude).arg(longitude),
+            url: control.aladhanBaseGps.arg(aladhanDateString()).arg(latitude).arg(longitude),
             method: "GET"
         };
         Http.request(query).then(function (response) {
-                let day = new Date().getDate() - 1; // the calendar array is 0-based
-                let dayInfo = response['data'][day];
+                let dayInfo = response['data'];
                 setPrayerTimes(dayInfo);
                 control.startTimer();
             });
