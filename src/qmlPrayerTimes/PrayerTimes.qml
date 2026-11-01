@@ -32,6 +32,11 @@ Item {
     onLatitudeChanged: initialFetch()
     onLongitudeChanged: initialFetch()
 
+    // The widget is created by a Loader, and sometimes after the location is already
+    // known. Property initialisation does not emit a change signal, so onLatitudeChanged
+    // never fires in that case and nothing would ever be fetched.
+    Component.onCompleted: initialFetch()
+
     Connections {
         function onStartTimer() {
             timeUpdater.start();
@@ -277,5 +282,15 @@ Item {
         running: false
 
         onTriggered: PrayTimesController.calculateNextPrayerTime()
+    }
+
+    // A TV runs for weeks without a restart. Without this the widget keeps the timings
+    // it fetched on the day it started, and the Hijri date never moves.
+    Timer {
+        interval: 6 * 60 * 60 * 1000
+        repeat: true
+        running: true
+
+        onTriggered: prayerTimes.initialFetch()
     }
 }
